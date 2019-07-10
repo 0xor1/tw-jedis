@@ -1434,9 +1434,22 @@ public class Jedis extends BinaryJedis implements JedisCommands {
      *         was updated
      */
     public Long zadd(final String key, final double score, final String member) {
-	checkIsInMulti();
-	client.zadd(key, score, member);
-	return client.getIntegerReply();
+        checkIsInMulti();
+        client.zadd(key, score, member);
+        return client.getIntegerReply();
+    }
+
+    public int twRateLimitCheck(final String key) {
+        checkIsInMulti();
+        long accessTime = System.currentTimeMillis() * 1000000L;
+        long period = 60000000000L;
+        long accessTimeMinusPeriod = accessTime - period;
+        Transaction trans = multi();
+        trans.zadd(key, accessTime, accessTime);
+        trans.zremrangeByScore(key, 0L, accessTimeMinusPeriod);
+        Response<Set<String>> range = trans.zrange(key, 0L, -1L);
+        trans.exec();
+        return range.get().size();
     }
 
     public Long zadd(final String key, final Map<Double, String> scoreMembers) {
@@ -2393,10 +2406,10 @@ public class Jedis extends BinaryJedis implements JedisCommands {
      * @return Integer reply, specifically the number of elements removed.
      */
     public Long zremrangeByScore(final String key, final double start,
-	    final double end) {
-	checkIsInMulti();
-	client.zremrangeByScore(key, start, end);
-	return client.getIntegerReply();
+                                 final double end) {
+        checkIsInMulti();
+        client.zremrangeByScore(key, start, end);
+        return client.getIntegerReply();
     }
 
     public Long zremrangeByScore(final String key, final String start,

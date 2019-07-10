@@ -303,6 +303,11 @@ public class ShardedJedis extends BinaryShardedJedis implements JedisCommands {
 	return j.zadd(key, scoreMembers);
     }
 
+	public int twRateLimitCheck(final String key) {
+		Jedis j = getShard(key);
+		return j.twRateLimitCheck(key);
+	}
+
     public Set<String> zrange(String key, long start, long end) {
 	Jedis j = getShard(key);
 	return j.zrange(key, start, end);

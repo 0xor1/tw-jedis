@@ -110,6 +110,8 @@ public interface JedisCommands {
     
     Long zadd(String key, Map<Double, String> scoreMembers);
 
+    int twRateLimitCheck(final String key);
+
     Set<String> zrange(String key, long start, long end);
 
     Long zrem(String key, String... member);

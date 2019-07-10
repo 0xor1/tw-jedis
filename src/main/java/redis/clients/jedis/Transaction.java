@@ -408,6 +408,11 @@ public class Transaction extends BinaryTransaction {
         return getResponse(BuilderFactory.LONG);
     }
 
+    public Response<Long> zadd(String key, long score, long member) {
+        client.zadd(key, score, member);
+        return getResponse(BuilderFactory.LONG);
+    }
+
     public Response<Long> zcard(String key) {
         client.zcard(key);
         return getResponse(BuilderFactory.LONG);
@@ -435,6 +440,11 @@ public class Transaction extends BinaryTransaction {
     }
 
     public Response<Set<String>> zrange(String key, int start, int end) {
+        client.zrange(key, start, end);
+        return getResponse(BuilderFactory.STRING_ZSET);
+    }
+
+    public Response<Set<String>> zrange(String key, long start, long end) {
         client.zrange(key, start, end);
         return getResponse(BuilderFactory.STRING_ZSET);
     }
@@ -490,6 +500,11 @@ public class Transaction extends BinaryTransaction {
     }
 
     public Response<Long> zremrangeByScore(String key, double start, double end) {
+        client.zremrangeByScore(key, start, end);
+        return getResponse(BuilderFactory.LONG);
+    }
+
+    public Response<Long> zremrangeByScore(String key, long start, long end) {
         client.zremrangeByScore(key, start, end);
         return getResponse(BuilderFactory.LONG);
     }

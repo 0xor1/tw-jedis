@@ -373,7 +373,11 @@ public class BinaryClient extends Connection {
     }
 
     public void zadd(final byte[] key, final double score, final byte[] member) {
-	sendCommand(ZADD, key, toByteArray(score), member);
+        sendCommand(ZADD, key, toByteArray(score), member);
+    }
+
+    public void zadd(final byte[] key, final byte[] score, final byte[] member) {
+        sendCommand(ZADD, key, score, member);
     }
 
     public void zaddBinary(final byte[] key, Map<Double, byte[]> scoreMembers) {

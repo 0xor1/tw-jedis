@@ -315,12 +315,16 @@ public class Client extends BinaryClient implements Commands {
 	srandmember(SafeEncoder.encode(key));
     }
 
-    public void zadd(final String key, final double score, final String member) {
-	zadd(SafeEncoder.encode(key), score, SafeEncoder.encode(member));
-    }
+	public void zadd(final String key, final double score, final String member) {
+		zadd(SafeEncoder.encode(key), score, SafeEncoder.encode(member));
+	}
+
+	public void zadd(final String key, final long score, final long member) {
+		zadd(SafeEncoder.encode(key), toByteArray(score), toByteArray(member));
+	}
 
     public void zrange(final String key, final long start, final long end) {
-	zrange(SafeEncoder.encode(key), start, end);
+		zrange(SafeEncoder.encode(key), start, end);
     }
 
     public void zrem(final String key, final String... members) {
@@ -514,11 +518,17 @@ public class Client extends BinaryClient implements Commands {
 	zremrangeByRank(SafeEncoder.encode(key), start, end);
     }
 
-    public void zremrangeByScore(final String key, final double start,
-	    final double end) {
-	zremrangeByScore(SafeEncoder.encode(key), toByteArray(start),
-		toByteArray(end));
-    }
+	public void zremrangeByScore(final String key, final double start,
+								 final double end) {
+		zremrangeByScore(SafeEncoder.encode(key), toByteArray(start),
+				toByteArray(end));
+	}
+
+	public void zremrangeByScore(final String key, final long start,
+								 final long end) {
+		zremrangeByScore(SafeEncoder.encode(key), toByteArray(start),
+				toByteArray(end));
+	}
 
     public void zremrangeByScore(final String key, final String start,
 	    final String end) {
